@@ -1,0 +1,31 @@
+name: Update Chess Stats
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Runs daily at midnight
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Fetch Chess.com Stats
+        run: curl -s https://api.chess.com/pub/player/t3nsor9 > chess_stats.json
+
+      - name: Update README
+        run: |
+          echo "## Chess.com Profile" >> README.md
+          echo "![Chess Avatar]($(jq -r .avatar chess_stats.json))" >> README.md
+          echo "### Rating: $(jq -r .rating chess_stats.json)" >> README.md
+          echo "[Visit my profile]($(jq -r .url chess_stats.json))" >> README.md
+
+      - name: Commit changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add README.md
+          git commit -m "Update Chess.com stats"
+          git push
