@@ -3010,3 +3010,7 @@
 ![Chess Avatar]()
 ### Rating: 
 [Visit my profile]()
+## Chess.com Profile
+![Chess Avatar]()
+### Rating: 
+[Visit my profile]()
